@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.drawio": "xml",
+        ".clang-format": "yaml"
+    },
+    "maven.view": "hierarchical"
+}

@@ -1,0 +1,19 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="第 1 页" id="2L6RZoKbIUp7hc0hx0oV">
+    <mxGraphModel dx="1406" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="DLbod_krwz_O799lP63E-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0000FF;gradientColor=#FF0000;gradientDirection=east;" value="" vertex="1">
+          <mxGeometry height="80" width="120" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="DLbod_krwz_O799lP63E-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0000FF;gradientColor=#FF0000;gradientDirection=east;rotation=-45;" value="" vertex="1">
+          <mxGeometry height="80" width="120" x="130" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="DLbod_krwz_O799lP63E-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0000FF;gradientColor=#FF0000;gradientDirection=east;rotation=-90;" value="" vertex="1">
+          <mxGeometry height="80" width="120" x="260" y="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

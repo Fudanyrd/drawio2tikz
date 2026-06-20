@@ -1,0 +1,13 @@
+#misc
+*.txz
+*.tgz
+*.zip
+
+# tex generated
+*.pdf
+*.log
+*.aux
+
+# java generated
+target/
+
