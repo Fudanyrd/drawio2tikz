@@ -204,6 +204,11 @@ public class Shape extends Geometry {
      */
     public double rotate;
 
+    /**
+     * Inner text of a geometry shape.
+     */
+    public String innerTexCode;
+
     public Shape(double x, double y, double width, double height, Color drawColor) {
         super(x, y, width, height, drawColor);
         if (width < 0 || height < 0) {
@@ -214,6 +219,7 @@ public class Shape extends Geometry {
         roundedCorners = false;
         strokeWidth = 1;
         rotate = 0;
+        innerTexCode = "";
     }
 
     private void dumpCoordinates(StringBuilder sb) {
@@ -312,8 +318,13 @@ public class Shape extends Geometry {
         if (gradient != null) {
             gradient.draw(sb, fillColor, rotate);
             ctx.tikzLibraries.add("shadings");
+            sb.append(", ");
         } else if (fillColor != null) {
             sb.append("color=").append(fillColor.uniqueName()).append(", ");
+        } else {
+            Color white = new Color("FFFFFF");
+            this.registerColor(ctx, white); /* default to white */
+            sb.append("color=").append(white.uniqueName()).append(", ");
         }
 
         if (roundedCorners) {
@@ -324,10 +335,33 @@ public class Shape extends Geometry {
         if (drawColor != null) {
             sb.append("draw=").append(drawColor.uniqueName()).append(", ");
             sb.append("line width=").append(String.format("%d", strokeWidth)).append("pt");
+        } else if (strokeWidth > 0) {
+            Color black = new Color("000000");
+            this.registerColor(ctx, black);
+            sb.append("draw=").append(black.uniqueName()).append(", ");
+            sb.append("line width=").append(String.format("%d", strokeWidth)).append("pt");
         }
         sb.append("] ");
         dumpCoordinates(sb);
+
         sb.append(";");
+
+        /**
+         * draw text by creating a separate node.
+         *
+         * Example:
+         * <blockquote>\draw (4, 2) % node size
+         * at (2.5, -2) { % node position
+         * inner text};</blockquote>
+         */
+        if (innerTexCode != null && !innerTexCode.isEmpty()) {
+            Point center = new Point(x + width / 2, y + height / 2);
+            sb.append("\n\\draw ");
+            formatCoordinate(width, height, sb);
+            sb.append(" node[] at ");
+            formatCoordinate(center, sb);
+            sb.append(" {\n").append(innerTexCode).append("\n};");
+        }
         return sb.toString();
     }
 }

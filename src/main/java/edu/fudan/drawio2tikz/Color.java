@@ -14,6 +14,24 @@ public class Color {
         }
     }
 
+    public static Color fromHTMLStyle(String style) {
+        String stripped = style.replaceAll("\\s+", "");
+        if (stripped.charAt(0) == '#') {
+            return new Color(stripped.substring(1));
+        } else if (stripped.startsWith("rgb(") && stripped.endsWith(")")) {
+            String[] parts = stripped.substring(4, stripped.length() - 1).split(",");
+            if (parts.length != 3) {
+                throw new IllegalArgumentException("Invalid rgb color format.");
+            }
+            byte r = (byte)Integer.parseInt(parts[0]);
+            byte g = (byte)Integer.parseInt(parts[1]);
+            byte b = (byte)Integer.parseInt(parts[2]);
+            return new Color(String.format("%02X%02X%02X", r, g, b));
+        } else {
+            throw new IllegalArgumentException("Unsupported color format: " + style);
+        }
+    }
+
     @Override
     public String toString() {
         return String.format("%02X%02X%02X", channels[0], channels[1], channels[2]);

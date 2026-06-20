@@ -1,0 +1,13 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="第 1 页" id="Sx2MLUIMjme-9_HGaERf">
+    <mxGraphModel dx="1406" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="OXPVYF5S6XkaDsYwjZMv-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;span style=&quot;font-size: 18px;&quot;&gt;&lt;b&gt;A Text Block&lt;/b&gt;&lt;/span&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;font style=&quot;&quot;&gt;&lt;br/&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;font style=&quot;&quot;&gt;Paragraph 1 tests text alignment, i.e. it should be aligned to the left.&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;font style=&quot;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;font style=&quot;&quot;&gt;This paragraph, however, also &lt;font style=&quot;color: rgb(255, 0, 0);&quot;&gt;test&lt;/font&gt;&lt;font style=&quot;color: rgb(0, 255, 0);&quot;&gt; &lt;/font&gt;&lt;font style=&quot;color: rgb(0, 255, 0);&quot;&gt;&lt;font style=&quot;color: rgb(0, 255, 0);&quot;&gt;text&lt;/font&gt;&lt;font style=&quot;color: rgb(0, 0, 255);&quot;&gt;&amp;nbsp;&lt;/font&gt;&lt;/font&gt;&lt;font style=&quot;color: rgb(0, 0, 255);&quot;&gt;color&lt;/font&gt;&lt;font style=&quot;color: rgb(0, 0, 0);&quot;&gt;, &lt;b&gt;bold text&lt;/b&gt;, and &lt;i&gt;italics&lt;/i&gt;.&lt;/font&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;color: rgb(0, 0, 0);&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;color: rgb(0, 0, 0);&quot;&gt;Finally, different font size &lt;font style=&quot;font-size: 14px;&quot;&gt;is&lt;/font&gt; &lt;font style=&quot;font-size: 16px;&quot;&gt;tested&lt;/font&gt; &lt;font style=&quot;font-size: 18px;&quot;&gt;here&lt;/font&gt;.&lt;/font&gt;&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="200" width="280" x="40" y="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

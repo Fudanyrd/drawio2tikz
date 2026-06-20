@@ -77,6 +77,19 @@ public class GeometryFactory {
                 /* ignore invalid strokeWidth. */
             }
         }
+        if (mxCellNode.hasAttribute("value")) {
+            try {
+                String html = mxCellNode.getAttribute("value");
+                // System.err.println(html);
+                String innerTexCode = Html2Tex.convert(html);
+                if (!innerTexCode.isEmpty()) {
+                    ret.innerTexCode = "\\begin{tabular}{p{\\textwidth}}\n" + innerTexCode + "\n\\end{tabular}";
+                }
+            } catch (Exception ex) {
+                /* ignore exceptions during inner text conversion. */
+                System.err.println(ex.getMessage());
+            }
+        }
         return ret;
     }
 
