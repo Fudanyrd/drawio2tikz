@@ -54,7 +54,7 @@ public class Gallery {
             String tikzFilename = "resources/" + nameWithoutExt + ".tex";
             String pngFilename = "resources/" + nameWithoutExt + ".png";
 
-            // generate resources/$filename.tex
+            /* generate resources/$filename.tex */
             try {
                 TikzGen tikzGen = TikzGen.fromFile(drawioFile, context);
                 String tikzCode = tikzGen.generateTikz();
@@ -83,7 +83,6 @@ public class Gallery {
             sb.append("\\end{figure}\n\n");
         }
 
-        // sb.append("\\end{document}");
         return sb.toString();
     }
 
@@ -93,7 +92,6 @@ public class Gallery {
         List<Path> drawioFiles = findDrawioFiles();
         String galleryCode = generateGallery(drawioFiles, ctx);
 
-        //
         sb.append("\\documentclass{article}\n");
         sb.append("\\usepackage{tikz}\n");
         sb.append("\\usepackage{graphicx}\n");
@@ -102,10 +100,17 @@ public class Gallery {
         sb.append("\\begin{document}\n");
         sb.append("\\maketitle\n");
 
-        // dump \definecolor commands.
+        /* Load required tikz libraries. */
         for (String tikzLib : ctx.tikzLibraries) {
             sb.append("\\usetikzlibrary{").append(tikzLib).append("}\n");
         }
+
+        /**
+         * Generate "\\definecolor" commands for all colors used in generated tikz code.
+         *
+         * The colors are stored in the context object, and the generator will automatically add colors to the context
+         * when processing geometries, so users only need to load the colors defined in the context.
+         */
         for (Color color : ctx.colors) {
             sb.append("\\definecolor{")
                 .append(color.uniqueName())
@@ -125,7 +130,7 @@ public class Gallery {
             return;
         }
 
-        // compile to gallery.pdf
+        /* compile to gallery.pdf */
         try {
             Process process =
                 new ProcessBuilder("pdflatex", "-halt-on-error", "-output-directory=resources", "resources/gallery.tex")

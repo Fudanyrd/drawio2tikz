@@ -9,6 +9,17 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+/**
+ * <h3>Tikz Code Generator</h3>
+ *
+ * Notes on using generated tikz code
+ * <ul>
+ *   <li>Before LaTex's "begin{document}" environment, tikz and xcolor packages should be loaded.</li>
+ *   <li>{@link Context} class does book-keeping for all required colors (in HTML format) and tikz libraries. The
+ * generator will automatically add colors to the context when processing geometries, so users only need to load the
+ * colors defined in the context.</li>
+ * </ul>
+ */
 public class TikzGen {
     private Context context;
     private List<Geometry> geometries;
@@ -29,6 +40,13 @@ public class TikzGen {
         }
     }
 
+    /**
+     * Construct a generator object from a path to drawio XML file.
+     *
+     * @param path path to drawio XML file
+     * @param context a context object to be used by the generator. If null,
+     * a new context will be created.
+     */
     public static TikzGen fromFile(Path path, Context context) {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
@@ -106,4 +124,6 @@ public class TikzGen {
         sb.append("\\end{document}\n");
         return sb.toString();
     }
+
+    public Context getContext() { return context; }
 }

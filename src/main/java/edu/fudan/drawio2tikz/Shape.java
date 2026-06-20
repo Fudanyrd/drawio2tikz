@@ -5,6 +5,21 @@ import java.util.Map;
 /**
  * It represents a solid shape, including triangles, rectangles,
  * ellipses, etc.
+ *
+ * <h3>Implemented Shapes
+ * See {@link ShapeKind} for the list of supported shapes.
+ * <ul>
+ *   <li>rectangle</li>
+ *   <li>ellipse</li>
+ *   <li>triangle</li>
+ * </ul>
+ *
+ * <h3>Implemented Attributes</h3>
+ * <ul>
+ *   <li>rounded corners</li>
+ *   <li>fill color plus gradient (in limited directions, see {@link Gradient.Direction})</li>
+ *   <li>rotation (not for ellipse, since it is not supported by tikz)</li>
+ * </ul>
  */
 public class Shape extends Geometry {
     /**
@@ -202,6 +217,15 @@ public class Shape extends Geometry {
     }
 
     private void dumpCoordinates(StringBuilder sb) {
+        /**
+         * Notes on call to {@link Point#rotateBy}:
+         *
+         * The y-axis in tikz and that in drawio go in opposite directions.
+         * Because of this, when drawing pictures in tikz, all y coordinates
+         * are negated (see also {@link Geometry#formatCoordinate}).
+         * So the roation angle should be negated when rotating points, to make
+         * the rotation direction consistent with that in draw.io.
+         */
         switch (shapeKind) {
         case RECTANGLE: {
             /**
