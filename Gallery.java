@@ -5,6 +5,7 @@ import edu.fudan.drawio2tikz.Context;
 import edu.fudan.drawio2tikz.Geometry;
 import edu.fudan.drawio2tikz.TikzGen;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class Gallery {
     private static List<Path> findDrawioFiles() {
         List<Path> drawioFiles = new ArrayList<>();
         try {
-            Stream<Path> paths = Files.walk(Path.of("resources"));
+            Stream<Path> paths = Files.walk(FileSystems.getDefault().getPath("resources"));
             for (Path path : (Iterable<Path>)paths::iterator) {
                 if (path.toString().endsWith(".drawio")) {
                     drawioFiles.add(path);
@@ -58,14 +59,14 @@ public class Gallery {
             try {
                 TikzGen tikzGen = TikzGen.fromFile(drawioFile, context);
                 String tikzCode = tikzGen.generateTikz();
-                Files.write(Path.of(tikzFilename), tikzCode.getBytes());
+                Files.write(FileSystems.getDefault().getPath(tikzFilename), tikzCode.getBytes());
             } catch (Exception e) {
                 e.printStackTrace();
                 continue;
             }
 
             sb.append("\\begin{figure}[ht]\n");
-            if (java.nio.file.Files.exists(Path.of(pngFilename))) {
+            if (java.nio.file.Files.exists(FileSystems.getDefault().getPath(pngFilename))) {
                 sb.append("\\begin{subfigure}{0.5\\textwidth}\n")
                     .append("\\includegraphics[width=\\linewidth]{")
                     .append(pngFilename)
@@ -124,7 +125,7 @@ public class Gallery {
         sb.append("\\end{document}\n");
 
         try {
-            Files.write(Path.of("resources/gallery.tex"), sb.toString().getBytes());
+            Files.write(FileSystems.getDefault().getPath("resources/gallery.tex"), sb.toString().getBytes());
         } catch (IOException e) {
             e.printStackTrace();
             return;
