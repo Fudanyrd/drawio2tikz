@@ -1,0 +1,77 @@
+name: Maven Packaging
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  check-format:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install Clang-Format
+        run: sudo apt-get install -y clang-format
+      - name: Check Code Format
+        working-directory: .
+        run: |
+          sh src/test/resources/check-format.sh
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install Dependencies
+        working-directory: .
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y maven openjdk-8-jdk-headless --no-install-recommends
+      - name: Unit Tests
+        working-directory: .
+        run: mvn clean test
+      - name: Build with Maven
+        working-directory: .
+        run: mvn package -DskipTests
+      - name: Generate Gallery
+        working-directory: .
+        run: |
+          sh -c 'set -ex
+            jar=$( echo target/drawio2tikz-*.jar )
+            javac -classpath $jar Gallery.java
+            java -classpath "$jar:." Gallery
+          '
+      - name: Upload Generated Tikz Files
+        uses: actions/upload-artifact@v3
+        with:
+          name: tikz-files
+          path: resources/*.tex
+  gallery:
+    runs-on: ubuntu-24.04
+    needs: build
+    steps:
+      - name: Download Generated Tikz Files
+        uses: actions/download-artifact@v3
+        with:
+          name: tikz-files
+      - name: Install Texlive
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-latex-base tar --no-install-recommends
+      - name: Compile Tikz Files
+        working-directory: .
+        run: |
+          pdflatex -interaction=nonstopmode -halt-on-error -output-directory=resources resources/gallery.tex
+      # save a copy of generated PDF and log files for debugging
+      - name: Pack Gallery Artifact
+        working-directory: ./resources
+        run: |
+          tar cJvf gallery.txz gallery.pdf gallery.log
+      - name: Upload Gallery Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: gallery-ar
+          path: resources/gallery.txz
