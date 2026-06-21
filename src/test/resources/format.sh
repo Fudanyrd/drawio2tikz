@@ -8,12 +8,8 @@ test -f "$config_file" || { echo "Error: .clang-format file not found in $PWD"; 
 clang-format -i --style="file:$config_file" Gallery.java
 
 # main/*
-for file in src/main/java/edu/fudan/drawio2tikz/*.java; do
-    clang-format -i --style="file:$config_file" "$file"
-done
+clang-format -i --style="file:$config_file" src/main/java/edu/fudan/drawio2tikz/*.java
 
 # test/*
-for file in src/test/java/edu/fudan/drawio2tikz/*.java; do
-    clang-format -i --style="file:$config_file" "$file"
-done
+clang-format -i --style="file:$config_file" src/test/java/edu/fudan/drawio2tikz/*.java
 exit 0
