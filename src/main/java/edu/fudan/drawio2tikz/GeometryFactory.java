@@ -1,5 +1,6 @@
 package edu.fudan.drawio2tikz;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
@@ -29,7 +30,7 @@ public class GeometryFactory {
         return styleMap;
     }
 
-    private static Line createLine(Element mxCellNode, Node sourcePointNode, Node targetPointNode) {
+    private static Line createLine(Element mxCellNode, Node sourcePointNode, Node targetPointNode, Node arrayNode) {
         double srcX = getCoordinateAttr("x", sourcePointNode);
         double srcY = getCoordinateAttr("y", sourcePointNode);
         double tgtX = getCoordinateAttr("x", targetPointNode);
@@ -48,6 +49,16 @@ public class GeometryFactory {
                 ret.setStrokeWidth(Integer.parseInt(styleMap.get("strokeWidth")));
             } catch (NumberFormatException e) {
                 /* ignore invalid strokeWidth. */
+            }
+        }
+        if (arrayNode != null) {
+            NodeList mxPointNodes = ((Element)arrayNode).getElementsByTagName("mxPoint");
+            ret.array = new ArrayList<>();
+            for (int i = 0; i < mxPointNodes.getLength(); i++) {
+                Node mxPointNode = mxPointNodes.item(i);
+                double x = getCoordinateAttr("x", mxPointNode);
+                double y = getCoordinateAttr("y", mxPointNode);
+                ret.array.add(new Point(x, y));
             }
         }
         return ret;
@@ -101,32 +112,33 @@ public class GeometryFactory {
         }
 
         NodeList mxPointNodes = mxGeometryNode.getElementsByTagName("mxPoint");
-        int numMxPointNodes = mxPointNodes.getLength();
 
-        String asAttr = "";
+        int sourcePointIdx = -1;
+        int targetPointIdx = -1;
         try {
-            Element firstChild = (Element)mxPointNodes.item(0);
-            if (firstChild != null) {
-                asAttr = firstChild.getAttributes().getNamedItem("as").getNodeValue();
+            int numMxPointNodes = mxPointNodes.getLength();
+            for (int i = 0; i < numMxPointNodes; i++) {
+                Element mxPointNode = (Element)mxPointNodes.item(i);
+                Node namedItem = mxPointNode.getAttributes().getNamedItem("as");
+                if (namedItem == null) {
+                    continue;
+                }
+                String asValue = namedItem.getNodeValue();
+                if (asValue.equals("sourcePoint")) {
+                    sourcePointIdx = i;
+                } else if (asValue.equals("targetPoint")) {
+                    targetPointIdx = i;
+                }
             }
         } catch (DOMException e) {
             return null;
         }
 
-        if (asAttr.equals("sourcePoint") || asAttr.equals("targetPoint")) {
-            if (numMxPointNodes != 2) {
-                /* line node has only two mxPoint nodes, representing source and target. */
-                return null;
-            }
-            int sourcePointIdx, targetPointIdx;
-            if (asAttr.equals("sourcePoint")) {
-                sourcePointIdx = 0;
-                targetPointIdx = 1;
-            } else {
-                sourcePointIdx = 1;
-                targetPointIdx = 0;
-            }
-            return createLine(node, mxPointNodes.item(sourcePointIdx), mxPointNodes.item(targetPointIdx));
+        if (sourcePointIdx >= 0) {
+            assert targetPointIdx >= 0;
+            NodeList arrayNodes = mxGeometryNode.getElementsByTagName("Array");
+            Node arrayNode = arrayNodes.getLength() > 0 ? arrayNodes.item(0) : null;
+            return createLine(node, mxPointNodes.item(sourcePointIdx), mxPointNodes.item(targetPointIdx), arrayNode);
         }
 
         return createShape(node, mxGeometryNode);

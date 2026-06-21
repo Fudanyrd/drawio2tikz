@@ -12,6 +12,7 @@ public class TestGeometryFactory {
         + "style=\"endArrow=none;html=1;rounded=0;strokeColor=#0000FF;strokeWidth=2;startArrow=open;startFill=0;\" "
         + "value=\"\">\n  <mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\">\n    <mxPoint "
         + "x=\"40\" y=\"160\" as=\"sourcePoint\" />\n    <mxPoint x=\"40\" y=\"40\" as=\"targetPoint\" />\n  "
+        + "<Array as=\"points\">\n      <mxPoint x=\"40\" y=\"120\" />\n    </Array>\n"
         + "</mxGeometry>\n</mxCell>";
     private static String drawIOShapeCode =
         "<mxCell "
@@ -42,6 +43,13 @@ public class TestGeometryFactory {
         Assert.assertEquals(new Color("0000FF"), line.drawColor);
         Assert.assertTrue(line.startArrow);
         Assert.assertFalse(line.endArrow);
+
+        /* check other vertices */
+        Assert.assertNotNull(line.array);
+        Assert.assertEquals(1, line.array.size());
+        Point point = line.array.get(0);
+        Assert.assertEquals(40, point.x, DELTA);
+        Assert.assertEquals(120, point.y, DELTA);
     }
 
     @Test

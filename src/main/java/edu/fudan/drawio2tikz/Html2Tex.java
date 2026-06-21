@@ -3,10 +3,8 @@ package edu.fudan.drawio2tikz;
 import java.util.Stack;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML;
-import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
-import javax.swing.text.html.parser.TagElement;
 
 public class Html2Tex {
     public static class StyleSheet {

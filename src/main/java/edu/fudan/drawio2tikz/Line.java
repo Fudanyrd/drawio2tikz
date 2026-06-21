@@ -1,6 +1,7 @@
 package edu.fudan.drawio2tikz;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Represents a line of drawio.
@@ -23,6 +24,21 @@ public class Line extends Geometry {
 
     public boolean startArrow;
     public boolean endArrow;
+
+    /**
+     * From "mxCell > mxGeometry > Array",
+     * which drawio uses to store the points of a line (not including
+     * source and target vertex).
+     *
+     * <p>Each {@code Point} is a "turning point" of the line, and the line
+     * will be drawn from source vertex to the first point in array,
+     * then to the second point in array, ..., and finally to target vertex.
+     * </p>
+     *
+     * <p>If array is null, then the line will be drawn directly from source
+     * vertex to target vertex.</p>
+     */
+    public List<Point> array;
 
     public Line setStrokeWidth(int strokeWidth) {
         this.strokeWidth = strokeWidth;
@@ -49,6 +65,7 @@ public class Line extends Geometry {
     public Line(double x, double y, double width, double height, Color drawColor) {
         super(x, y, width, height, drawColor);
         this.strokeWidth = 1;
+        this.array = null;
     }
 
     @Override
@@ -84,9 +101,16 @@ public class Line extends Geometry {
         double curX = x;
         double curY = y;
         formatCoordinate(curX, curY, sb);
-        sb.append(" -- ");
+
+        if (array != null) {
+            for (Point p : array) {
+                sb.append(" -- ");
+                formatCoordinate(p, sb);
+            }
+        }
 
         /* draw the coordiate of target vertex. */
+        sb.append(" -- ");
         curX += width;
         curY += height;
         formatCoordinate(curX, curY, sb);
