@@ -45,7 +45,7 @@ jobs:
             java -classpath "$jar:." Gallery
           '
       - name: Upload Generated Tikz Files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: tikz-files
           path: resources/*.tex
@@ -53,8 +53,10 @@ jobs:
     runs-on: ubuntu-24.04
     needs: build
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Download Generated Tikz Files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: tikz-files
       - name: Install Texlive
@@ -71,7 +73,7 @@ jobs:
         run: |
           tar cJvf gallery.txz gallery.pdf gallery.log
       - name: Upload Gallery Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: gallery-ar
           path: resources/gallery.txz
