@@ -20,6 +20,13 @@ import java.util.Map;
  *   <li>fill color plus gradient (in limited directions, see {@link Gradient.Direction})</li>
  *   <li>rotation (not for ellipse, since it is not supported by tikz)</li>
  * </ul>
+ *
+ * <h3>Future Enhancement</h3>
+ * Use <blockquote>
+ * /tikz/rotate around={degree:coordinate}
+ * </blockquote>
+ * for rotating a shape around its center, so we do not have to compute coordinates of the shape
+ * boundary after rotation by ourselves.
  */
 public class Shape extends Geometry {
     /**
@@ -222,6 +229,8 @@ public class Shape extends Geometry {
         innerTexCode = "";
     }
 
+    private boolean hasRotation() { return Math.abs(rotate) > 1e-4; }
+
     private void dumpCoordinates(StringBuilder sb) {
         /**
          * Notes on call to {@link Point#rotateBy}:
@@ -255,23 +264,20 @@ public class Shape extends Geometry {
         case ELLIPSE:
             /**
              * Example formatting result:
-             * (5, -2) ellipse (1 and 1)
+             * <blockquote>
+             * \fill [rotate=45, left color=C0000FF, right color=C33FF33]
+             * % formatted here:
+             * (0, 0) ellipse [x radius=4, y radius=2];</blockquote>
              */
 
-            /**
-             * in draw.io, smallest square's length is 10 unit,
-             * so width and height of ellipse should be divided
-             * by 2 to get the radius in tikz.
-             */
-            if (Math.abs(rotate) > 1e-4) {
-                System.err.println("Warning: rotation of ellipse is not supported, ignored.");
-            }
-            formatCoordinate(x + width / 2, y + height / 2, sb);
-            sb.append(" ellipse (");
-            sb.append(String.format("%.2f", width / 2.0 * SCALE_FACTOR));
-            sb.append(" and ");
-            sb.append(String.format("%.2f", height / 2.0 * SCALE_FACTOR));
-            sb.append(")");
+            double xRadius = width / 2.0;
+            double yRadius = height / 2.0;
+            formatCoordinate(x + xRadius, y + yRadius, sb);
+            sb.append(" ellipse ");
+            xRadius *= SCALE_FACTOR;
+            yRadius *= SCALE_FACTOR;
+            sb.append("[x radius=").append(String.format("%.4f", xRadius)).append(", ");
+            sb.append("y radius=").append(String.format("%.4f", yRadius)).append("]");
             break;
         case TRIANGLE: {
             /**
@@ -340,6 +346,17 @@ public class Shape extends Geometry {
             this.registerColor(ctx, black);
             sb.append("draw=").append(black.uniqueName()).append(", ");
             sb.append("line width=").append(String.format("%d", strokeWidth)).append("pt");
+        }
+        /**
+         * Ellipse rotation is explicitly coded in the fill method.
+         * For other shape kinds, we compute the coordinates of the shape boundary
+         * after rotation and then draw the shape boundary by connecting these coordinates,
+         * so we don't need to specify rotation angle in tikz command.
+         */
+        if (shapeKind == ShapeKind.ELLIPSE && hasRotation() && Math.abs(width - height) > 1e-2) {
+            sb.append(", ").append("rotate around={").append(String.format("%.3f", -rotate)).append(":");
+            formatCoordinate(x + width / 2, y + height / 2, sb);
+            sb.append("}");
         }
         sb.append("] ");
         dumpCoordinates(sb);
