@@ -62,10 +62,14 @@ jobs:
           path: resources
       # tikz as well.
       - name: Install Texlive
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-latex-base tar --no-install-recommends
-          sudo tlmgr install pgf
+          sudo apt-get install -y texlive-latex-base tar xzdec --no-install-recommends
+          mkdir -p ~/texmf
+          tlmgr init-usertree
+          tlmgr install pgf
       - name: Compile Tikz Files
         working-directory: .
         run: |

@@ -19,6 +19,11 @@ public abstract class Geometry {
      */
     public static final double SCALE_FACTOR = 1.0 / 40;
 
+    /**
+     * Centimeter to a unit in tikz (based on my estimation).
+     */
+    public static final double CENTIMETER_TO_TIKZ_UNIT = 1;
+
     public Geometry(double x, double y, double width, double height, Color drawColor) {
         this.x = x;
         this.y = y;

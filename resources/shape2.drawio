@@ -1,0 +1,22 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="shpfSSIQCS29oPshrrjq">
+    <mxGraphModel dx="934" dy="563" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="7JozSPBK6JS9R-3lV8L3-1" parent="1" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;size=40;fillColor=#0000FF;" value="Hexagon" vertex="1">
+          <mxGeometry height="80" width="120" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="7JozSPBK6JS9R-3lV8L3-3" parent="1" style="shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;size=40;rotation=-90;fillColor=#AA0055;" value="Trapzoid" vertex="1">
+          <mxGeometry height="60" width="80" x="50" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="7JozSPBK6JS9R-3lV8L3-4" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;size=40;rotation=-45;fillColor=#FF8000;" value="&lt;font style=&quot;color: rgb(0, 0, 0);&quot;&gt;Paralleogram&lt;/font&gt;" vertex="1">
+          <mxGeometry height="40" width="120" x="90" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="7JozSPBK6JS9R-3lV8L3-2" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#55AA00;" value="Diamond" vertex="1">
+          <mxGeometry height="80" width="80" x="120" y="140" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

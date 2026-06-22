@@ -101,6 +101,9 @@ public class GeometryFactory {
                 System.err.println(ex.getMessage());
             }
         }
+        if (Shape.requireStyleMap(ret.shapeKind)) {
+            ret.restStyle = styleMap;
+        }
         return ret;
     }
 

@@ -40,4 +40,9 @@ public class Point {
     public String toString() {
         return String.format("(%.2f, %.2f)", x, y);
     }
+
+    Point negateYAxis() {
+        y = -y;
+        return this;
+    }
 }
