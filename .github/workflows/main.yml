@@ -67,8 +67,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y tar xzdec wget --no-install-recommends
-          wget https://mirrors.rit.edu/CTAN/systems/texlive/tlnet/install-tl-unx.tar.gz
-          tar xzf install-tl-unx.tar.gz
+          wget https://mirrors.rit.edu/CTAN/systems/texlive/tlnet/install-tl-unx.tar.gz -O tl.tgz
+          tar xzf tl.tgz
           cd install-tl-*
           ./install-tl --profile=../.github/workflows/tl.profile
           tlmgr install pgf

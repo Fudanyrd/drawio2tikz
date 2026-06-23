@@ -541,15 +541,7 @@ public class Shape extends Geometry {
         }
     }
 
-    @Override
-    public String draw(Context ctx) {
-        this.registerColor(ctx, drawColor);
-        this.registerColor(ctx, fillColor);
-        if (gradient != null) {
-            this.registerColor(ctx, gradient.endColor);
-        }
-
-        StringBuilder sb = new StringBuilder();
+    private void drawBody(StringBuilder sb, Context ctx) {
         sb.append("\\fill[");
         if (gradient != null) {
             gradient.draw(sb, fillColor, rotate);
@@ -557,10 +549,6 @@ public class Shape extends Geometry {
             sb.append(", ");
         } else if (fillColor != null) {
             sb.append("color=").append(fillColor.uniqueName()).append(", ");
-        } else {
-            Color white = new Color("FFFFFF");
-            this.registerColor(ctx, white); /* default to white */
-            sb.append("color=").append(white.uniqueName()).append(", ");
         }
 
         if (roundedCorners) {
@@ -568,13 +556,8 @@ public class Shape extends Geometry {
         }
 
         /* stroke color and width */
-        if (drawColor != null) {
+        if (drawColor != null && strokeWidth > 0) {
             sb.append("draw=").append(drawColor.uniqueName()).append(", ");
-            sb.append("line width=").append(String.format("%d", strokeWidth)).append("pt");
-        } else if (strokeWidth > 0) {
-            Color black = new Color("000000");
-            this.registerColor(ctx, black);
-            sb.append("draw=").append(black.uniqueName()).append(", ");
             sb.append("line width=").append(String.format("%d", strokeWidth)).append("pt");
         }
         /**
@@ -592,7 +575,9 @@ public class Shape extends Geometry {
         dumpCoordinates(sb);
 
         sb.append(";");
+    }
 
+    private void drawText(StringBuilder sb, Context ctx) {
         /**
          * draw text by creating a separate node.
          *
@@ -617,6 +602,21 @@ public class Shape extends Geometry {
             formatCoordinate(center, sb);
             sb.append(" {\n").append(innerTexCode).append("\n};");
         }
+    }
+
+    @Override
+    public String draw(Context ctx) {
+        this.registerColor(ctx, drawColor);
+        this.registerColor(ctx, fillColor);
+        if (gradient != null) {
+            this.registerColor(ctx, gradient.endColor);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        if (fillColor != null || gradient != null) {
+            drawBody(sb, ctx);
+        }
+        drawText(sb, ctx);
         return sb.toString();
     }
 }

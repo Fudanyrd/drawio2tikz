@@ -64,6 +64,20 @@ public class GeometryFactory {
         return ret;
     }
 
+    private static Color getColorOrDefault(HashMap<String, String> styleMap, String key, Color defaultColor) {
+        String colorSpec = styleMap.get(key);
+        if (colorSpec == null) {
+            return defaultColor;
+        }
+        if (colorSpec.equals("none")) {
+            /**
+             * Really do not use any color.
+             */
+            return null;
+        }
+        return new Color(colorSpec.substring(1));
+    }
+
     private static Shape createShape(Element mxCellNode, Element mxGeometryNode) {
         /* not implemented. */
         double x = getCoordinateAttr("x", mxGeometryNode);
@@ -71,13 +85,11 @@ public class GeometryFactory {
         double width = getCoordinateAttr("width", mxGeometryNode);
         double height = getCoordinateAttr("height", mxGeometryNode);
         HashMap<String, String> styleMap = parseStyle(mxCellNode.getAttribute("style"));
-        String colorSpec = styleMap.get("strokeColor");
-        Color drawColor = colorSpec == null ? null : /*remove the beginning hashtag. */
-                              new Color(colorSpec.substring(1));
+        Color drawColor = getColorOrDefault(styleMap, "strokeColor", new Color("000000"));
 
         Shape ret = new Shape(x, y, width, height, drawColor);
         ret.shapeKind = Shape.createShapeKind(styleMap);
-        ret.fillColor = styleMap.containsKey("fillColor") ? new Color(styleMap.get("fillColor").substring(1)) : null;
+        ret.fillColor = getColorOrDefault(styleMap, "fillColor", new Color("FFFFFF"));
         ret.gradient = Shape.Gradient.createGradientIfSpecified(styleMap);
         ret.roundedCorners = styleMap.containsKey("rounded") && styleMap.get("rounded").equals("1");
         ret.rotate = styleMap.containsKey("rotation") ? Double.parseDouble(styleMap.get("rotation")) : 0;
