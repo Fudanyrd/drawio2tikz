@@ -107,6 +107,12 @@ public class Shape extends Geometry {
             if (size < 0.0) {
                 throw new IllegalArgumentException("Size of a parallelogram should be non-negative.");
             }
+            if (size > width) {
+                /**
+                 * Ill-formed parallelogram, check the input drawio.
+                 */
+                throw new IllegalArgumentException("Size of a parallelogram should not exceed its width.");
+            }
             double dx = width / 2;
             double dy = height / 2;
             List<Point> ret = new ArrayList<>();
@@ -136,6 +142,12 @@ public class Shape extends Geometry {
             if (size < 0.0) {
                 throw new IllegalArgumentException("Size of a hexagon should be non-negative.");
             }
+            if (size * 2 > width) {
+                /**
+                 * Ill-formed hexagon, check the input drawio.
+                 */
+                throw new IllegalArgumentException("Size of a hexagon should not exceed half of its width.");
+            }
             double dx = width / 2;
             double dy = height / 2;
             List<Point> ret = new ArrayList<>();
@@ -160,14 +172,19 @@ public class Shape extends Geometry {
              * </blockquote>
              * where CDEF is a rectangle;
              * A, B, C, D are the vertices;
-             * width is DC, height is AD, and size is AE + BF.
+             * width is DC, height is AD, and size is AE or BF.
              */
             if (size < 0.0) {
                 throw new IllegalArgumentException("Size of a trapezoid should be non-negative.");
             }
+            if (size * 2 > width) {
+                /**
+                 * Ill-formed trapezoid, check the input drawio.
+                 */
+                throw new IllegalArgumentException("Size of a trapezoid should not exceed half of its width.");
+            }
             double dx = width / 2;
             double dy = height / 2;
-            size *= 0.5;
             List<Point> ret = new ArrayList<>();
             /* starting from D; then CBA */
             ret.add(new Point(-dx, -dy));
@@ -592,9 +609,8 @@ public class Shape extends Geometry {
              * The text should rotate together with the shape.
              */
             if (hasRotation()) {
-                sb.append(", rotate around={").append(String.format("%.3f", -rotate)).append(":");
-                formatCoordinate(center, sb);
-                sb.append("}] at ");
+                sb.append(", rotate=").append(String.format("%.3f", -rotate));
+                sb.append("] at ");
             } else {
                 sb.append("] at ");
             }
