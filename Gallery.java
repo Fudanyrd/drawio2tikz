@@ -75,9 +75,11 @@ public class Gallery {
                     .append("\\end{subfigure}\n");
             }
             sb.append("\\begin{subfigure}{0.5\\textwidth}\n")
+                .append("\\resizebox{\\textwidth}{!}{%\n")
                 .append("\\input{")
                 .append(tikzFilename)
                 .append("}\n")
+                .append("}%\n")
                 .append("\\caption{Generated TikZ code}\n")
                 .append("\\end{subfigure}\n");
             sb.append("\\caption{Comparison for ").append(nameWithoutExt).append("}\n");
