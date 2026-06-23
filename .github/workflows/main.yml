@@ -66,21 +66,25 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-latex-base tar xzdec --no-install-recommends
-          mkdir -p ~/texmf
-          tlmgr init-usertree
+          sudo apt-get install -y tar xzdec wget --no-install-recommends
+          wget https://mirrors.rit.edu/CTAN/systems/texlive/tlnet/install-tl-unx.tar.gz
+          tar xzf install-tl-unx.tar.gz
+          cd install-tl-*
+          ./install-tl --profile=../.github/workflows/tl.profile
           tlmgr install pgf
+          tlmgr update --self --all --no-auto-install --repository=https://mirrors.rit.edu/CTAN/systems/texlive/tlnet
       - name: Compile Tikz Files
         working-directory: .
         run: |
+          export PATH="$PATH:/tmp/texlive/bin:/tmp/texlive/bin/x86_64-linux"
           pdflatex -interaction=nonstopmode -halt-on-error -output-directory=resources resources/gallery.tex
       # save a copy of generated PDF and log files for debugging
       - name: Pack Gallery Artifact
         working-directory: ./resources
         run: |
-          tar cJvf gallery.txz gallery.pdf gallery.log
+          tar czvf gallery.tgz gallery.pdf gallery.log
       - name: Upload Gallery Artifact
         uses: actions/upload-artifact@v4
         with:
           name: gallery-ar
-          path: resources/gallery.txz
+          path: resources/gallery.tgz
