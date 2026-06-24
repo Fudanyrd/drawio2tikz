@@ -78,7 +78,7 @@ jobs:
         working-directory: .
         run: |
           export PATH="$PATH:/tmp/texlive/bin:/tmp/texlive/bin/x86_64-linux"
-          pdflatex -interaction=nonstopmode -halt-on-error -output-directory=resources resources/gallery.tex
+          latexmk -halt-on-error -output-directory=resources -time -pdf ./resources/gallery.tex
       # save a copy of generated PDF and log files for debugging
       - name: Pack Gallery Artifact
         working-directory: ./resources
