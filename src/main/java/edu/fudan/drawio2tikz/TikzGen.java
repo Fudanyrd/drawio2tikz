@@ -2,6 +2,7 @@ package edu.fudan.drawio2tikz;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -31,13 +32,19 @@ public class TikzGen {
         Element mxGraphModelNode = (Element)diagramNode.getElementsByTagName("mxGraphModel").item(0);
         Element rootNode = (Element)mxGraphModelNode.getElementsByTagName("root").item(0);
         NodeList mxCellNodes = rootNode.getElementsByTagName("mxCell");
+        HashMap<String, Integer> idToIndex = new HashMap<>();
         for (int i = 0; i < mxCellNodes.getLength(); i++) {
             Element mxCellNode = (Element)mxCellNodes.item(i);
             Geometry geometry = GeometryFactory.createGeometry(mxCellNode);
-            if (geometry != null) {
-                geometries.add(geometry);
-            }
+            geometries.add(geometry);
+            String id = mxCellNode.getAttribute("id");
+            assert !id.equals("") : "mxCell must have an id attribute";
+            idToIndex.put(id, i);
         }
+        /**
+         * Recompute the x and y coordinates for certain lines.
+         */
+        new LineRecomputer(mxCellNodes, geometries, idToIndex);
     }
 
     /**
@@ -81,6 +88,16 @@ public class TikzGen {
         /* draw the picture. */
         sb.append("\\begin{tikzpicture}").append("\n");
         for (Geometry geometry : geometries) {
+            if (geometry == null) {
+                /**
+                 * This will not be surprising, because the first two mxCells are:
+                 * <blockquote>
+                 * <mxCell id="0" />
+                 * <mxCell id="1" parent="0" />
+                 * </blockquote>
+                 */
+                continue;
+            }
             sb.append(geometry.draw(context)).append("\n");
         }
         sb.append("\\end{tikzpicture}");

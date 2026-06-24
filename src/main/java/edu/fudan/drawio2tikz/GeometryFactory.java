@@ -16,7 +16,7 @@ public class GeometryFactory {
         }
     }
 
-    private static HashMap<String, String> parseStyle(String style) {
+    public static HashMap<String, String> parseStyle(String style) {
         HashMap<String, String> styleMap = new HashMap<>();
         String[] styleItems = style.split(";");
         for (String item : styleItems) {
