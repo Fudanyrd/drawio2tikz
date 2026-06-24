@@ -71,6 +71,7 @@ jobs:
           tar xzf tl.tgz
           cd install-tl-*
           ./install-tl --profile=../.github/workflows/tl.profile
+          export PATH="$PATH:/tmp/texlive/bin:/tmp/texlive/bin/x86_64-linux"
           tlmgr install pgf
           tlmgr update --self --all --no-auto-install --repository=https://mirrors.rit.edu/CTAN/systems/texlive/tlnet
       - name: Compile Tikz Files

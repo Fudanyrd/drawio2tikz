@@ -83,6 +83,7 @@ public class Gallery {
                 .append("\\caption{Generated TikZ code}\n")
                 .append("\\end{subfigure}\n");
             sb.append("\\caption{Comparison for ").append(nameWithoutExt).append("}\n");
+            sb.append("\\label{fig:").append(nameWithoutExt).append("}\n");
             sb.append("\\end{figure}\n\n");
         }
 
@@ -99,6 +100,7 @@ public class Gallery {
         sb.append("\\usepackage{tikz}\n");
         sb.append("\\usepackage{graphicx}\n");
         sb.append("\\usepackage{subcaption}\n");
+        sb.append("\\usepackage{url}\n");
         sb.append("\\title{Drawio to TikZ Gallery}\n");
         sb.append("\\begin{document}\n");
         sb.append("\\maketitle\n");
@@ -124,6 +126,7 @@ public class Gallery {
         }
         sb.append('\n');
         sb.append(galleryCode);
+        sb.append("\n\\input{resources/cite.tex}\n");
         sb.append("\\end{document}\n");
 
         try {
