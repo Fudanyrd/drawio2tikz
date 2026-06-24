@@ -66,19 +66,20 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           sudo apt-get update
-          sudo apt-get install -y tar xzdec wget --no-install-recommends
+          sudo apt-get install -y tar xzdec libfontconfig1 perl wget --no-install-recommends
           wget https://mirrors.rit.edu/CTAN/systems/texlive/tlnet/install-tl-unx.tar.gz -O tl.tgz
           tar xzf tl.tgz
           cd install-tl-*
-          ./install-tl --profile=../.github/workflows/tl.profile
+          test -f ../.github/workflows/tl.profile
+          ./install-tl --no-interaction --profile=../.github/workflows/tl.profile
           export PATH="$PATH:/tmp/texlive/bin:/tmp/texlive/bin/x86_64-linux"
-          tlmgr install pgf
+          tlmgr install pgf caption standalone footmisc preview pdftex xetex libertinus-fonts psnfss url
           tlmgr update --self --all --no-auto-install --repository=https://mirrors.rit.edu/CTAN/systems/texlive/tlnet
       - name: Compile Tikz Files
         working-directory: .
         run: |
           export PATH="$PATH:/tmp/texlive/bin:/tmp/texlive/bin/x86_64-linux"
-          latexmk -halt-on-error -output-directory=resources -time -pdf ./resources/gallery.tex
+          xelatex -halt-on-error -output-directory=./resources -interaction=nonstopmode ./resources/gallery.tex
       # save a copy of generated PDF and log files for debugging
       - name: Pack Gallery Artifact
         working-directory: ./resources
