@@ -34,12 +34,21 @@ public class EnvironNode extends NodeBase {
 
     @Override
     public void appendTo(FormatterInterface formatter) {
+        formatter.autoBreakOff();
         formatter.append(getBegin());
-        for (ArgumentBase arg : restArguments) {
-            arg.appendTo(formatter);
+        if (restArguments != null) {
+            for (ArgumentBase arg : restArguments) {
+                arg.appendTo(formatter);
+            }
         }
+        formatter.autoBreakOn();
         formatter.appendNewLine(false);
 
+        /* dump everything in between */
+        boolean allowBr = allowAutoBreak();
+        if (!allowBr) {
+            formatter.autoBreakOff();
+        }
         if (children != null) {
             formatter.enter();
             for (NodeBase child : children) {
@@ -47,6 +56,11 @@ public class EnvironNode extends NodeBase {
             }
             formatter.leave();
         }
+        if (!allowBr) {
+            formatter.autoBreakOn();
+        }
+
+        formatter.appendNewLine(false);
         formatter.append(getEnd());
     }
 }

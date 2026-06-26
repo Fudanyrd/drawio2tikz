@@ -7,7 +7,7 @@ package edu.fudan.jtex;
 public class CommentNode extends NodeBase {
     public String comment;
 
-    CommentNode(String comment) {
+    public CommentNode(String comment) {
         this.comment = comment;
         children = null;
 

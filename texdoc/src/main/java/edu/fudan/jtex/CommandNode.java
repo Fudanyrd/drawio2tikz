@@ -61,8 +61,10 @@ public class CommandNode extends NodeBase {
         }
 
         formatter.append(name);
-        for (ArgumentBase arg : arguments) {
-            arg.appendTo(formatter);
+        if (arguments != null) {
+            for (ArgumentBase arg : arguments) {
+                arg.appendTo(formatter);
+            }
         }
 
         if (!allowBr) {
