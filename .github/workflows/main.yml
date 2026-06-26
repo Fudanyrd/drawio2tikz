@@ -30,9 +30,13 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y maven openjdk-8-jdk-headless --no-install-recommends
+      # third parth -> our own package
       - name: Unit Tests
         working-directory: .
-        run: mvn clean test
+        run: |
+          mvn --file 3rdparty.xml clean test
+          mvn --file 3rdparty.xml install -DskipTests
+          mvn clean test
       - name: Build with Maven
         working-directory: .
         run: mvn package -DskipTests

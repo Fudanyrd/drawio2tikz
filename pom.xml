@@ -17,5 +17,11 @@
       <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>edu.fudan.jtex</groupId>
+      <artifactId>texdoc</artifactId>
+      <version>0.1.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>
