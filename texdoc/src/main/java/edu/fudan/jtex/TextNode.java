@@ -10,7 +10,7 @@ public class TextNode extends NodeBase {
 
     public boolean allowAutoBreak() { return true; }
 
-    public static boolean isWhitespace(char c) { return c == ' ' || c == '\t' || ((int)c == 0xa0); }
+    public static boolean isWhitespace(char c) { return c == ' ' || c == '\t' || ((int)c) == 0xa0; }
 
     @Override
     public void appendTo(FormatterInterface formatter) {
@@ -21,6 +21,8 @@ public class TextNode extends NodeBase {
         char firstChar = text.charAt(0);
         if (isWhitespace(firstChar)) {
             formatter.appendWhitespaces(text);
+        } else if (firstChar == '\n') {
+            formatter.appendNewLine(false);
         } else {
             formatter.append(text);
         }

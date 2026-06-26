@@ -41,9 +41,12 @@ public class EnvironNode extends NodeBase {
         formatter.appendNewLine(false);
 
         if (children != null) {
+            formatter.enter();
             for (NodeBase child : children) {
                 child.appendTo(formatter);
             }
+            formatter.leave();
         }
+        formatter.append(getEnd());
     }
 }
