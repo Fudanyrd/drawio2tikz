@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ Third-party utilities
+
+ Most of them are LaTex document utilities -
+ formatting, building, and parsing.
+
+ These should be installed via
+ "mvn -f 3rdparty.xml install"
+-->
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>edu.fudan.jtex</groupId>
+  <artifactId>latex-java</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <name>LaTex Toolkit</name>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>texdoc</module>
+  </modules>
+</project>
