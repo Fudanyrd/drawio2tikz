@@ -17,7 +17,7 @@ jobs:
       - name: Check Code Format
         working-directory: .
         run: |
-          sh src/test/resources/check-format.sh
+          ./src/test/resources/check-format.sh
   build:
     runs-on: ubuntu-24.04
     steps:
