@@ -46,7 +46,7 @@ jobs:
           sh -c 'set -ex
             jar=$( echo target/drawio2tikz-*.jar )
             javac -classpath $jar Gallery.java
-            java -classpath "$jar:." Gallery
+            java -classpath "$jar:.:texdoc/target/classes" Gallery
           '
       - name: Upload Generated Tikz Files
         uses: actions/upload-artifact@v4

@@ -14,6 +14,9 @@ public class Color {
         }
     }
 
+    public static final Color BLACK = new Color("000000");
+    public static final Color WHITE = new Color("FFFFFF");
+
     public static Color fromHTMLStyle(String style) {
         String stripped = style.replaceAll("\\s+", "");
         if (stripped.charAt(0) == '#') {
