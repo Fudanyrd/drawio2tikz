@@ -83,7 +83,9 @@ jobs:
         working-directory: .
         run: |
           export PATH="$PATH:/tmp/texlive/bin:/tmp/texlive/bin/x86_64-linux"
+          for i in $(seq 1 2); do
           xelatex -halt-on-error -output-directory=./resources -interaction=nonstopmode ./resources/gallery.tex
+          done
       # save a copy of generated PDF and log files for debugging
       - name: Pack Gallery Artifact
         working-directory: ./resources

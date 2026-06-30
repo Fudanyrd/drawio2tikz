@@ -11,6 +11,7 @@ import edu.fudan.jtex.ParagraphNode;
 import edu.fudan.jtex.TextNode;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML;
@@ -89,59 +90,6 @@ public class Html2Tex {
                 } else {
                     System.err.println(String.format("Invalid style item: %s", item));
                 }
-            }
-        }
-    };
-
-    private static class ToTexParserCallback extends HTMLEditorKit.ParserCallback {
-        private StringBuilder sb;
-        private Stack<StyleSheet> styleStack = new Stack<>();
-
-        public ToTexParserCallback(StringBuilder sb) { this.sb = sb; }
-
-        @Override
-        public void handleText(char[] data, int pos) {
-            if (data.length == 1 && (data[0] == ' ' || (int)data[0] == 0xa0)) {
-                data[0] = '~'; /* non-breaking space in LaTeX. */
-            }
-            sb.append(data);
-        }
-
-        @Override
-        public void handleStartTag(HTML.Tag tag, MutableAttributeSet attributes, int pos) {
-            StyleSheet ss = new StyleSheet((String)attributes.getAttribute(HTML.Attribute.STYLE));
-            styleStack.push(ss);
-            sb.append(ss.texEnvironBegin());
-
-            if (tag == HTML.Tag.B) {
-                sb.append("\\textbf{");
-            } else if (tag == HTML.Tag.I) {
-                sb.append("\\textit{");
-            }
-        }
-
-        @Override
-        public void handleEndTag(HTML.Tag tag, int pos) {
-            if (tag == HTML.Tag.P || tag == HTML.Tag.SPAN) {
-                sb.append("\\\\\n");
-            }
-            if (tag == HTML.Tag.B || tag == HTML.Tag.I) {
-                sb.append("}");
-            }
-
-            if (!styleStack.isEmpty()) {
-                StyleSheet ss = styleStack.peek();
-                sb.append(ss.texEnvironAfter());
-                styleStack.pop();
-            } else {
-                throw new IllegalStateException("Style stack underflow: unmatched end tag " + tag);
-            }
-        }
-
-        @Override
-        public void handleSimpleTag(HTML.Tag tag, MutableAttributeSet attributes, int pos) {
-            if (tag == HTML.Tag.BR) {
-                sb.append("\\\\\n");
             }
         }
     };
@@ -296,9 +244,19 @@ public class Html2Tex {
         Callback callback = new Callback();
         parserDelegator.parse(new StringReader(html), callback, false);
         /**
-         * TODO:
+         * TODO [done]
          * use manual linebreak to separate each paragraph (children of topLevel).
          */
+        ArrayList<NodeBase> children = new ArrayList<NodeBase>();
+        List<NodeBase> topLevelChildren = callback.topLevel.children;
+        int numChildren = topLevelChildren.size();
+        children.add(topLevelChildren.get(0));
+        for (int i = 1; i < numChildren; i++) {
+            children.add(new TextNode("\\\\"));
+            children.add(new TextNode("\n"));
+            children.add(topLevelChildren.get(i));
+        }
+        callback.topLevel.children = children;
         return callback.topLevel.toString();
     }
 }
