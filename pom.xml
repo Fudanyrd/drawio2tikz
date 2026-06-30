@@ -1,3 +1,7 @@
+<!--
+ MIT License. See ./LICENSE
+-->
+
 <project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>drawio2tikz</groupId>

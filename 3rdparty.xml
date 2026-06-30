@@ -3,6 +3,8 @@
 <!--
  Third-party utilities
 
+ License: MIT (see ./LICENSE)
+
  Most of them are LaTex document utilities -
  formatting, building, and parsing.
 
