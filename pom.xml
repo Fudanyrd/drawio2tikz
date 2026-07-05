@@ -27,5 +27,10 @@
       <artifactId>texdoc</artifactId>
       <version>0.1.0-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>edu.fudan.jtex</groupId>
+      <artifactId>texq</artifactId>
+      <version>0.1.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>
