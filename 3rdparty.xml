@@ -28,5 +28,6 @@
   <modules>
     <module>texdoc</module>
     <module>texq</module>
+    <module>texparse</module>
   </modules>
 </project>

@@ -5,6 +5,8 @@ srcdirs="$srcdirs texdoc/src/main/java/edu/fudan/jtex"
 srcdirs="$srcdirs texdoc/src/test/java/edu/fudan/jtex"
 srcdirs="$srcdirs texq/src/main/java/edu/fudan/jtex"
 srcdirs="$srcdirs texq/src/test/java/edu/fudan/jtex"
+srcdirs="$srcdirs texparse/src/main/java/edu/fudan/jtex"
+srcdirs="$srcdirs texparse/src/test/java/edu/fudan/jtex"
 
 source_directories="$srcdirs"
 unset srcdirs
