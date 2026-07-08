@@ -14,7 +14,7 @@ public final class Tokenizer {
     }
 
     private boolean refill() {
-        if (column < currentLine.length()) {
+        if (currentLine != null && column < currentLine.length()) {
             return true;
         }
         try {

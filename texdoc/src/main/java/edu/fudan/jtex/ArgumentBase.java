@@ -10,7 +10,9 @@ public abstract class ArgumentBase {
     public abstract String after();
 
     public void appendTo(FormatterInterface formatter) {
+        formatter.autoBreakOff(); /* [ or { shall not be in a new line. */
         formatter.append(before());
+        formatter.autoBreakOn();
         inner.appendTo(formatter);
         formatter.append(after());
     }

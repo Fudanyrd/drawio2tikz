@@ -38,4 +38,8 @@ public class ParserConfig {
         return c == '@' || c == '_' || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') /* isalpha */
             || (c >= '0' && c <= '9');                                                  /* isdigit */
     }
+
+    public static boolean isCommentToken(String token) { return token.charAt(0) == COMMENT_START; }
+    public static boolean isWhitespaceToken(String token) { return isWhitespace(token.charAt(0)); }
+    public static boolean isLineBreakToken(String token) { return token.equals(String.valueOf(LINE_BREAK)); }
 }
