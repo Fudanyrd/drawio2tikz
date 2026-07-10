@@ -21,6 +21,7 @@ public class ParserConfig {
         TOKEN_START.add(']');
         TOKEN_START.add('{');
         TOKEN_START.add('}');
+        TOKEN_START.add('~');
         TOKEN_START.add(COMMENT_START);
         TOKEN_START.add(LINE_BREAK);
     }

@@ -9,6 +9,7 @@ public class CommandNode extends NodeBase {
      */
     public String name;
 
+    public boolean isNumbered;
     public List<ArgumentBase> arguments;
 
     public static final HashSet<String> noAutoBreakCommands = new HashSet<String>();
@@ -38,14 +39,29 @@ public class CommandNode extends NodeBase {
         noAutoBreakCommands.add("\\texttt");
     }
 
-    public CommandNode(String name, List<ArgumentBase> arguments) {
-        this.name = name;
-        this.arguments = arguments;
-        children = null;
-
-        if (name.length() == 0 || name.charAt(0) != '\\') {
+    public CommandNode(String token, List<ArgumentBase> arguments) {
+        if (token.length() == 0 || token.charAt(0) != '\\') {
             throw new IllegalArgumentException("Command name must start with '\\'");
         }
+
+        int len = token.length();
+        if (token.charAt(len - 1) == '*') {
+            name = token.substring(0, len - 1);
+            isNumbered = true;
+        } else {
+            name = token;
+            isNumbered = false;
+        }
+
+        this.arguments = arguments;
+        children = null;
+    }
+
+    private String getToken() {
+        if (isNumbered) {
+            return name + "*";
+        }
+        return name;
     }
 
     @Override
@@ -60,7 +76,7 @@ public class CommandNode extends NodeBase {
             formatter.autoBreakOff();
         }
 
-        formatter.append(name);
+        formatter.append(getToken());
         if (arguments != null) {
             for (ArgumentBase arg : arguments) {
                 arg.appendTo(formatter);

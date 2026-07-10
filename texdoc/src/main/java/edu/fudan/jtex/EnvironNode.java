@@ -5,6 +5,7 @@ import java.util.List;
 
 public class EnvironNode extends NodeBase {
     public String name;
+    public boolean isNumbered;
     public List<ArgumentBase> restArguments;
 
     public static final HashSet<String> noAutoBreakEnvirons = new HashSet<String>();
@@ -19,13 +20,26 @@ public class EnvironNode extends NodeBase {
         noAutoBreakEnvirons.add("tikzpicture");
     }
 
-    public EnvironNode(String name, List<ArgumentBase> restArguments) {
-        this.name = name;
+    public EnvironNode(String token, List<ArgumentBase> restArguments) {
+        int len = token.length();
+        if (token.charAt(len - 1) == '*') {
+            name = token.substring(0, len - 1);
+            isNumbered = true;
+        } else {
+            name = token;
+            isNumbered = false;
+        }
         this.restArguments = restArguments;
     }
 
-    public String getBegin() { return "\\begin{" + name + "}"; }
-    public String getEnd() { return "\\end{" + name + "}"; }
+    private String getToken() {
+        if (isNumbered) {
+            return name + "*";
+        }
+        return name;
+    }
+    public String getBegin() { return "\\begin{" + getToken() + "}"; }
+    public String getEnd() { return "\\end{" + getToken() + "}"; }
 
     @Override
     public boolean allowAutoBreak() {

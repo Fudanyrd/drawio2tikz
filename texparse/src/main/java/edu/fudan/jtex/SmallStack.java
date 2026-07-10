@@ -39,6 +39,10 @@ public class SmallStack<T> {
     private void resize() {
         int length = (array == null) ? INIT_LENGTH : (array.length * 2);
         Object[] newArray = new Object[length];
+        if (array == null) {
+            array = newArray;
+            return;
+        }
         System.arraycopy(/* src= */ array, /* src.start= */ 0, /* target= */ newArray,
                          /* target.start= */ 0, /* length= */ this.size);
         array = newArray;

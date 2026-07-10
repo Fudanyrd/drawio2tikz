@@ -107,4 +107,33 @@ public class TestParser {
         TextNode text = (TextNode)parser.output.children.get(1);
         Assert.assertEquals("\n", text.text);
     }
+
+    @Test(timeout = 2500)
+    public void testRealWorld1() {
+        Parser parser =
+            new Parser(new InMemoryTexSource(new String[] {"\\begin{itemize*}\\item\\item~hello\\end{itemize*}\n"}));
+        QuerySelector s = new QuerySelector(parser.output);
+
+        /* check environ. */
+        EnvironNode env = (EnvironNode)s.next(s.MATCH_ENV, 1).get();
+        Assert.assertEquals("itemize", env.name);
+        Assert.assertTrue(env.isNumbered);
+        Assert.assertEquals(4, env.children.size());
+
+        /* check environ > commands. */
+        for (int i = 0; i < 2; i++) {
+            NodeBase node = env.children.get(i);
+            Assert.assertTrue(node instanceof CommandNode);
+            CommandNode cmd = (CommandNode)node;
+            Assert.assertEquals("\\item", cmd.name);
+        }
+
+        /* check that command parsing does not discard whitespace. */
+        TextNode txt = (TextNode)s.next(s.MATCH_TEXT, 1).get();
+        Assert.assertNotNull(txt);
+        Assert.assertEquals("~", txt.text);
+
+        txt = (TextNode)env.children.get(3);
+        Assert.assertEquals("hello", txt.text);
+    }
 }
