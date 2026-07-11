@@ -46,6 +46,11 @@ public class EnvironNode extends NodeBase {
         return !noAutoBreakEnvirons.contains(name);
     }
 
+    public boolean padIndent() {
+        boolean nopad = name.equals("document") || name.equals("enumerate") || name.equals("itemize");
+        return !nopad;
+    }
+
     @Override
     public void appendTo(FormatterInterface formatter) {
         formatter.autoBreakOff();
@@ -56,25 +61,37 @@ public class EnvironNode extends NodeBase {
             }
         }
         formatter.autoBreakOn();
-        formatter.appendNewLine(false);
+
+        boolean allowBr = allowAutoBreak();
+        boolean pad = padIndent();
+        if (allowBr) {
+            /* create a line break after the \\begin statement. */
+            formatter.appendNewLine(false);
+        }
 
         /* dump everything in between */
-        boolean allowBr = allowAutoBreak();
         if (!allowBr) {
             formatter.autoBreakOff();
         }
         if (children != null) {
-            formatter.enter();
+            if (pad) {
+                formatter.enter();
+            }
             for (NodeBase child : children) {
                 child.appendTo(formatter);
             }
-            formatter.leave();
+            if (pad) {
+                formatter.leave();
+            }
         }
         if (!allowBr) {
             formatter.autoBreakOn();
         }
 
-        formatter.appendNewLine(false);
+        if (allowBr) {
+            /* create a line break before the \\end statement. */
+            formatter.appendNewLine(false);
+        }
         formatter.append(getEnd());
     }
 }

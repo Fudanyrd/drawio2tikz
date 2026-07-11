@@ -213,10 +213,9 @@ public class Formatter implements FormatterInterface {
 
         if (column + text.length() > lastIsBr + config.lineWidth && (!isBlank(line))) {
             handleLongLine(line);
-            line = currentLine();
         } else {
-            line = padIndent(indentLevel * config.indentWidth - column);
         }
+        line = padIndent(indentLevel * config.indentWidth - column);
         line += text;
         queue.setCurrent(line);
         column += text.length();
@@ -287,7 +286,7 @@ public class Formatter implements FormatterInterface {
         if (clear) {
             /* clear current line and reset column counter */
             queue.setCurrent("");
-            column = 1;
+            column = 0;
         } else {
             line += "\n";
             queue.setCurrent(line);

@@ -13,4 +13,11 @@ public class ParagraphNode extends NodeBase {
     public boolean allowAutoBreak() {
         return true;
     }
+
+    @Override
+    public void appendTo(FormatterInterface formatter) {
+        formatter.appendNewLine(true);
+        super.appendTo(formatter);
+        formatter.appendNewLine(true);
+    }
 }

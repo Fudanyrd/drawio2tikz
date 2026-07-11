@@ -80,6 +80,7 @@ public class TestFormatter {
 
         /* add an empty line. */
         formatter.appendNewLine(true);
+        formatter.appendNewLine(false);
 
         /* second line: "2" */
         formatter.append("2").appendNewLine(false);

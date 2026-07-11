@@ -55,6 +55,7 @@ public class TestEnvironNode {
          * brevity.
          */
         NodeBase environ = create("minted", "language=Python");
+        addChild(environ, new TextNode("\n"));
         addChild(environ, new TextNode("def add(a,b): "));
         addChild(environ, new TextNode("\n"));
         addChild(environ, new TextNode("\treturn a + b"));
