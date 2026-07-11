@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+VERSION="0.1.0-SNAPSHOT"
+
+os="unknown"
+case "$(uname -s)" in
+    Linux*)     os="linux";;
+    MINGW*)    os="windows";;
+    CYGWIN*)   os="windows";;
+    Darwin*)    os="mac";;
+esac
+
+if test "$os" == "unknown"; then
+    echo "Unknown OS: $(uname -s)"
+    exit 1
+fi
+classpath_separator=":"
+if test "$os" == "windows"; then
+    classpath_separator=";"
+fi
+
+mvn_repository="$HOME/.m2/repository"
+classpath="$mvn_repository/edu/fudan/jtex/texdoc/$VERSION/texdoc-$VERSION.jar"
+classpath="$classpath$classpath_separator"
+classpath="$classpath$mvn_repository/edu/fudan/jtex/texparse/$VERSION/texparse-$VERSION.jar"
+
+tempf="$( mktemp -t texdoc.XXXXXX )"
+
+for input in "$@"; do
+  java -classpath "$classpath" edu.fudan.jtex.Instance "$input" > "$tempf"
+  # shellcheck disable=SC2181
+  if [ $? -ne 0 ]; then
+      echo "Error processing $input"
+      rm "$tempf"
+      exit 1
+  fi
+  cp --force "$tempf" "$input"
+done

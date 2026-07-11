@@ -48,6 +48,7 @@ jobs:
             javac -classpath $jar Gallery.java
             java -classpath "$jar:.:texdoc/target/classes" Gallery
           '
+          ./texparse/src/main/resources/latex-format resources/*.tex
       - name: Upload Generated Tikz Files
         uses: actions/upload-artifact@v4
         with:
