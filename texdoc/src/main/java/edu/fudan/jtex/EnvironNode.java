@@ -62,7 +62,7 @@ public class EnvironNode extends NodeBase {
         }
         formatter.autoBreakOn();
 
-        boolean allowBr = allowAutoBreak();
+        boolean allowBr = allowAutoBreak() && formatter.autoBreakEnabled();
         boolean pad = padIndent();
         if (allowBr) {
             /* create a line break after the \\begin statement. */

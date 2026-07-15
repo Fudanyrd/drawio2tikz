@@ -16,8 +16,13 @@ public class ParagraphNode extends NodeBase {
 
     @Override
     public void appendTo(FormatterInterface formatter) {
-        formatter.appendNewLine(true);
+        boolean free = formatter.autoBreakEnabled();
+        if (free) {
+            formatter.appendNewLine(true);
+        }
         super.appendTo(formatter);
-        formatter.appendNewLine(true);
+        if (free) {
+            formatter.appendNewLine(true);
+        }
     }
 }

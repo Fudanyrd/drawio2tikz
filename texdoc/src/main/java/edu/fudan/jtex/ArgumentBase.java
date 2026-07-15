@@ -13,7 +13,9 @@ public abstract class ArgumentBase {
         formatter.autoBreakOff(); /* [ or { shall not be in a new line. */
         formatter.append(before());
         formatter.autoBreakOn();
-        inner.appendTo(formatter);
+        if (inner != null) {
+            inner.appendTo(formatter);
+        }
         formatter.append(after());
     }
 }

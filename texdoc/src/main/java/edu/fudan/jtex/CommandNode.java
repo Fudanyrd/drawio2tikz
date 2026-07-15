@@ -37,6 +37,8 @@ public class CommandNode extends NodeBase {
         noAutoBreakCommands.add("\\textit");
         noAutoBreakCommands.add("\\emph");
         noAutoBreakCommands.add("\\texttt");
+        noAutoBreakCommands.add("\\textsf");
+        noAutoBreakCommands.add("\\textsc");
     }
 
     public CommandNode(String token, List<ArgumentBase> arguments) {
