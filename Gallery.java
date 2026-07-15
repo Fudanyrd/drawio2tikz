@@ -102,8 +102,6 @@ public class Gallery {
         sb.append("\\usepackage{subcaption}\n");
         sb.append("\\usepackage{url}\n");
         sb.append("\\title{Drawio to TikZ Gallery}\n");
-        sb.append("\\begin{document}\n");
-        sb.append("\\maketitle\n");
 
         /* Load required tikz libraries. */
         for (String tikzLib : ctx.tikzLibraries) {
@@ -125,6 +123,9 @@ public class Gallery {
                 .append("\n");
         }
         sb.append('\n');
+
+        sb.append("\\begin{document}\n");
+        sb.append("\\maketitle\n");
         sb.append(galleryCode);
         sb.append("\n\\input{resources/cite.tex}\n");
         sb.append("\\end{document}\n");
