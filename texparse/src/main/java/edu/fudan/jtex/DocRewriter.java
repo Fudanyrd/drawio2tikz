@@ -32,6 +32,10 @@ public abstract class DocRewriter {
 
     private void recurseImpl(SmallStack<NodeBase> stack) {
         NodeBase top = stack.top();
+        if (!top.allowAutoBreak()) {
+            /* do not rewrite this node. */
+            return;
+        }
         if (rewrite(stack) && top.children != null) {
             /* recurse to its children. */
             for (NodeBase child : top.children) {

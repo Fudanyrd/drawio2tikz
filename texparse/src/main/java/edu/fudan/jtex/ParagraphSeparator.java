@@ -118,6 +118,21 @@ public class ParagraphSeparator extends DocRewriter {
         }
     }
 
+    private static void replaceLFWithBlank(ParagraphNode p) {
+        List<NodeBase> children = p.children;
+        int length = children.size();
+        for (int i = 0; i + 1 < length; i++) {
+            NodeBase base = children.get(i);
+            if (!(base instanceof TextNode)) {
+                continue;
+            }
+            TextNode text = (TextNode)base;
+            if (ParserConfig.isLineBreakToken(text.text)) {
+                text.text = " ";
+            }
+        }
+    }
+
     @Override
     public boolean rewrite(SmallStack<NodeBase> context) {
         NodeBase top = context.top();
@@ -130,6 +145,11 @@ public class ParagraphSeparator extends DocRewriter {
         }
 
         new ParaSepImpl(env);
+        for (NodeBase child : top.children) {
+            if (child instanceof ParagraphNode) {
+                replaceLFWithBlank((ParagraphNode)child);
+            }
+        }
         return true;
     }
 }

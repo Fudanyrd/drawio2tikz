@@ -26,7 +26,7 @@ public final class Tokenizer {
             column = 0;
             return true;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            return false;
         }
     }
 

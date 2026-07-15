@@ -6,17 +6,17 @@ package edu.fudan.jtex;
  */
 public class SmallStack<T> {
     private Object[] array;
-    private int size;
+    private int _size;
 
     private static final int INIT_LENGTH = 4;
 
     /**
      * @param initialCapacity: (optional) if provided,
-     * the stack tries to allocate an array of this size.
+     * the stack tries to allocate an array of this _size.
      */
     public SmallStack(Integer initialCapacity) {
         array = null;
-        size = 0;
+        _size = 0;
         if (initialCapacity != null) {
             int cap = initialCapacity;
             if (cap < 0) {
@@ -27,7 +27,7 @@ public class SmallStack<T> {
     }
 
     public T getAt(int index) {
-        if (index < 0 || index >= size) {
+        if (index < 0 || index >= _size) {
             throw new IndexOutOfBoundsException("Index out of bounds");
         }
         return (T)array[index];
@@ -44,7 +44,7 @@ public class SmallStack<T> {
             return;
         }
         System.arraycopy(/* src= */ array, /* src.start= */ 0, /* target= */ newArray,
-                         /* target.start= */ 0, /* length= */ this.size);
+                         /* target.start= */ 0, /* length= */ this._size);
         array = newArray;
     }
 
@@ -54,22 +54,24 @@ public class SmallStack<T> {
      * @param element: a possibly null element.
      */
     public void push(T element) {
-        if (array == null || size == array.length) {
+        if (array == null || _size == array.length) {
             resize();
         }
-        array[size++] = element;
+        array[_size++] = element;
     }
 
     public void pop() {
-        if (size != 0) {
-            size--;
+        if (_size != 0) {
+            _size--;
         }
     }
 
     public T top() {
-        if (size == 0) {
+        if (_size == 0) {
             return null;
         }
-        return (T)array[size - 1];
+        return (T)array[_size - 1];
     }
+
+    public int size() { return _size; }
 }
