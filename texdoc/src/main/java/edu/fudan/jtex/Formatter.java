@@ -283,7 +283,7 @@ public class Formatter implements FormatterInterface {
             clear = isEmpty;
         }
 
-        if (clear) {
+        if (clear && isEmpty) {
             /* clear current line and reset column counter */
             queue.setCurrent("");
             column = 0;

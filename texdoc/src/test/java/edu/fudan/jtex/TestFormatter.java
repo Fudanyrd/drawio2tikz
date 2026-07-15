@@ -99,6 +99,23 @@ public class TestFormatter {
     }
 
     @Test
+    public void testLineBreak2() {
+        LineKeeper writer = new LineKeeper();
+        Formatter formatter = new Formatter(null, writer);
+
+        formatter.append("0").appendNewLine(true);
+        formatter.append("1").appendNewLine(true);
+        formatter.append("2").appendNewLine(false);
+        formatter.finish();
+
+        ArrayList<String> actual = writer.lines;
+        Assert.assertEquals(3, actual.size());
+        for (int i = 0; i < 3; i++) {
+            Assert.assertEquals(String.format("%d\n", i), actual.get(i));
+        }
+    }
+
+    @Test
     public void testAutoBreak() {
         Format config = new Format();
         config.lineWidth = 8;
