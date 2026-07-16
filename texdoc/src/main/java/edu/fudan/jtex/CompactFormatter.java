@@ -53,4 +53,7 @@ public class CompactFormatter implements FormatterInterface {
 
     @Override
     public void leave() {}
+
+    @Override
+    public void padIndent() {}
 }

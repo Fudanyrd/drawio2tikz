@@ -16,4 +16,5 @@ public interface FormatterInterface {
      */
     public void enter();
     public void leave();
+    public void padIndent();
 }

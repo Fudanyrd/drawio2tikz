@@ -53,8 +53,8 @@ public class EnvironNode extends NodeBase {
 
     @Override
     public void appendTo(FormatterInterface formatter) {
-        formatter.autoBreakOff();
         formatter.append(getBegin());
+        formatter.autoBreakOff();
         if (restArguments != null) {
             for (ArgumentBase arg : restArguments) {
                 arg.appendTo(formatter);

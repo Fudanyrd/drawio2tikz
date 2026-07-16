@@ -84,7 +84,7 @@ public class Gallery {
                 .append("\\end{subfigure}\n");
             sb.append("\\caption{Comparison for ").append(nameWithoutExt).append("}\n");
             sb.append("\\label{fig:").append(nameWithoutExt).append("}\n");
-            sb.append("\\end{figure}\n\n");
+            sb.append("\\end{figure} %\n\n");
         }
 
         return sb.toString();
@@ -105,7 +105,7 @@ public class Gallery {
 
         /* Load required tikz libraries. */
         for (String tikzLib : ctx.tikzLibraries) {
-            sb.append("\\usetikzlibrary{").append(tikzLib).append("}\n");
+            sb.append("\\usetikzlibrary{").append(tikzLib).append("} %\n");
         }
 
         /**
@@ -120,7 +120,7 @@ public class Gallery {
                 .append("}{HTML}{")
                 .append(color.toString())
                 .append("}")
-                .append("\n");
+                .append(" %\n");
         }
         sb.append('\n');
 

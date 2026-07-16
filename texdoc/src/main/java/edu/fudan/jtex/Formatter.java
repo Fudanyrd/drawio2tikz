@@ -311,4 +311,10 @@ public class Formatter implements FormatterInterface {
             indentLevel--;
         }
     }
+
+    @Override
+    public void padIndent() {
+        int missing = indentLevel * config.indentWidth - column;
+        padIndent(missing);
+    }
 }

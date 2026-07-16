@@ -75,6 +75,10 @@ public class CommandNode extends NodeBase {
     public void appendTo(FormatterInterface formatter) {
         boolean allowBr = allowAutoBreak();
         if (!allowBr) {
+            if (formatter.autoBreakEnabled()) {
+                /* Still in a `free` context, can ensure proper indentation. */
+                formatter.padIndent();
+            }
             formatter.autoBreakOff();
         }
 

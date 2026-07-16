@@ -133,9 +133,46 @@ public class ParagraphSeparator extends DocRewriter {
         }
     }
 
+    /**
+     * The rewriting process cosists of two steps:
+     * firstly separate by paragraphs, then replacing line break
+     * inside paragraphs with whitespaces.
+     *
+     * <p>The second step is for improving formatting quality.</p>
+     */
+    private void rewriteImpl(NodeBase subject) {
+        new ParaSepImpl(subject);
+        for (NodeBase child : subject.children) {
+            if (child instanceof ParagraphNode) {
+                replaceLFWithBlank((ParagraphNode)child);
+            }
+        }
+    }
+
+    private boolean rewriteTop(NodeBase root) {
+        for (NodeBase child : root.children) {
+            if (!(child instanceof CommandNode)) {
+                continue;
+            }
+            CommandNode cmd = (CommandNode)child;
+            if (cmd.name == "\\documentclass") {
+                /* possibly config area. do not rewrite. */
+                return true;
+            }
+        }
+
+        /* split root by paragraphs. */
+        this.rewriteImpl(root);
+        return true;
+    }
+
     @Override
     public boolean rewrite(SmallStack<NodeBase> context) {
         NodeBase top = context.top();
+        if (context.size() == 1) {
+            boolean ret = rewriteTop(top);
+            return ret;
+        }
         if (!(top instanceof EnvironNode)) {
             return true;
         }
@@ -144,12 +181,7 @@ public class ParagraphSeparator extends DocRewriter {
             return false;
         }
 
-        new ParaSepImpl(env);
-        for (NodeBase child : top.children) {
-            if (child instanceof ParagraphNode) {
-                replaceLFWithBlank((ParagraphNode)child);
-            }
-        }
+        this.rewriteImpl(env);
         return true;
     }
 }
