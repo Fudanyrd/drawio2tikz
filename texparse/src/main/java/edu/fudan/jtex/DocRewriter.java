@@ -18,6 +18,8 @@ public abstract class DocRewriter {
      */
     public abstract boolean rewrite(SmallStack<NodeBase> context);
 
+    public abstract void parseArgs(String[] args /* not null */) throws Exception;
+
     /**
      * Recursively apply this rewriter to {@code document}.
      *

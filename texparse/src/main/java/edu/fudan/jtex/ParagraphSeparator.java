@@ -19,6 +19,9 @@ public class ParagraphSeparator extends DocRewriter {
         REWRITABLE.add("itemize");
     }
 
+    @Override
+    public void parseArgs(String[] args) throws Exception {}
+
     static class ParaSepImpl {
         ParagraphNode current;
         ArrayList<NodeBase> children;

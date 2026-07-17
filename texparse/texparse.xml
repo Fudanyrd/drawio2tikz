@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <rewriters>
+    <rewriter class="edu.fudan.jtex.ExpandInclude">
+      <arg>--add-include-path=.</arg>
+    </rewriter>
+    <rewriter class="edu.fudan.jtex.ParagraphSeparator">
+    </rewriter>
+  </rewriters>
+</config>
