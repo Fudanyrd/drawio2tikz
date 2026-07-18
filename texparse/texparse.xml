@@ -6,5 +6,8 @@
     </rewriter>
     <rewriter class="edu.fudan.jtex.ParagraphSeparator">
     </rewriter>
+    <rewriter class="edu.fudan.jtex.Indexer">
+      <arg>--output=resources/toc.xml</arg>
+    </rewriter> 
   </rewriters>
 </config>

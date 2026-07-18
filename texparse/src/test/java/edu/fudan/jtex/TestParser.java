@@ -117,7 +117,7 @@ public class TestParser {
         /* check environ. */
         EnvironNode env = (EnvironNode)s.next(s.MATCH_ENV, 1).get();
         Assert.assertEquals("itemize", env.name);
-        Assert.assertTrue(env.isNumbered);
+        Assert.assertTrue(!env.isNumbered);
         Assert.assertEquals(4, env.children.size());
 
         /* check environ > commands. */

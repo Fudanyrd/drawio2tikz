@@ -24,16 +24,16 @@ public class EnvironNode extends NodeBase {
         int len = token.length();
         if (token.charAt(len - 1) == '*') {
             name = token.substring(0, len - 1);
-            isNumbered = true;
+            isNumbered = false;
         } else {
             name = token;
-            isNumbered = false;
+            isNumbered = true;
         }
         this.restArguments = restArguments;
     }
 
     private String getToken() {
-        if (isNumbered) {
+        if (!isNumbered) {
             return name + "*";
         }
         return name;
