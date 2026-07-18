@@ -26,12 +26,24 @@ classpath="$classpath$mvn_repository/edu/fudan/jtex/texparse/$VERSION/texparse-$
 
 tempf="$( mktemp -t texdoc.XXXXXX )"
 
+config="$( mktemp --suffix=.xml -t texdoc.XXXXXX )"
+cat << EOF > "$config"
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <rewriters>
+    <rewriter class="edu.fudan.jtex.ParagraphSeparator">
+    </rewriter>
+  </rewriters>
+</config>
+EOF
+
+trap "rm -f $tempf $config" EXIT
+
 for input in "$@"; do
-  java -classpath "$classpath" edu.fudan.jtex.Instance "$input" > "$tempf"
+  java -classpath "$classpath" edu.fudan.jtex.Instance "$input" "$config" > "$tempf"
   # shellcheck disable=SC2181
   if [ $? -ne 0 ]; then
       echo "Error processing $input"
-      rm "$tempf"
       exit 1
   fi
   cp --force "$tempf" "$input"
