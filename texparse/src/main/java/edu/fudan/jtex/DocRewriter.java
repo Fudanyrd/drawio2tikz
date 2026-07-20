@@ -51,6 +51,10 @@ public abstract class DocRewriter {
             CommandNode cmd = (CommandNode)top;
             if (cmd.arguments != null) {
                 for (ArgumentBase arg : cmd.arguments) {
+                    if (arg.inner == null) {
+                        /* some blank argument. */
+                        continue;
+                    }
                     stack.push(arg.inner);
                     recurseImpl(stack);
                     stack.pop();
