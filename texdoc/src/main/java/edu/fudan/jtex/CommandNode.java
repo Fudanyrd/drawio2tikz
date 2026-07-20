@@ -24,6 +24,7 @@ public class CommandNode extends NodeBase {
 
         /* path/url */
         noAutoBreakCommands.add("\\path");
+        noAutoBreakCommands.add("\\ref");
         noAutoBreakCommands.add("\\url");
         noAutoBreakCommands.add("\\includegraphics");
         noAutoBreakCommands.add("\\input");
@@ -76,8 +77,9 @@ public class CommandNode extends NodeBase {
         boolean allowBr = allowAutoBreak();
         if (!allowBr) {
             if (formatter.autoBreakEnabled()) {
-                /* Still in a `free` context, can ensure proper indentation. */
-                formatter.padIndent();
+                /* Still in a `free` context, can ensure proper indentation and column width. */
+                formatter.append(this.toString());
+                return;
             }
             formatter.autoBreakOff();
         }
