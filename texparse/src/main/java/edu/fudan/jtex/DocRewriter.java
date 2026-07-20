@@ -46,5 +46,16 @@ public abstract class DocRewriter {
                 stack.pop();
             }
         }
+
+        if (top instanceof CommandNode) {
+            CommandNode cmd = (CommandNode)top;
+            if (cmd.arguments != null) {
+                for (ArgumentBase arg : cmd.arguments) {
+                    stack.push(arg.inner);
+                    recurseImpl(stack);
+                    stack.pop();
+                }
+            }
+        }
     }
 }
