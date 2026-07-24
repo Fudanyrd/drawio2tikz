@@ -31,6 +31,7 @@ cat << EOF > "$config"
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
   <rewriters>
+    <rewriter class="edu.fudan.jtex.AddBreak"></rewriter>
     <rewriter class="edu.fudan.jtex.ParagraphSeparator">
     </rewriter>
   </rewriters>
